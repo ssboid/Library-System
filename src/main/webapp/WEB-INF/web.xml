@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
+
+
+
+    <servlet>
+        <servlet-name>User</servlet-name> // The name has to be unique but also has to be same as servlet name in servlet mapping
+        <servlet-class>Controller.User</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>User</servlet-name>
+        <url-pattern>/user</url-pattern> // this will call the servlet class
+    </servlet-mapping>
+
+<!--    for issue book-->
+<!--    <servlet>-->
+<!--    <servlet-name>BorrowBookServlet</servlet-name> // The name has to be unique but also has to be same as servlet name in servlet mapping-->
+<!--        <servlet-class>Controller.BorrowBookServlet</servlet-class>-->
+<!--    </servlet>-->
+
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>BorrowBookServlet</servlet-name>-->
+<!--        <url-pattern>/borrowbook</url-pattern> // this will call the servlet class-->
+<!--    </servlet-mapping>-->
+</web-app>
+
