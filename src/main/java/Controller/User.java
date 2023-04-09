@@ -1,6 +1,9 @@
 package Controller;
 
 import java.io.*;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 
 //import Hashing.HashPassword;
 import Model.Student;
@@ -92,8 +95,8 @@ public class User extends HttpServlet {
         if (action.equalsIgnoreCase("subscribe")) {
             Student student = new Student();
 
-            student.setSubName(request.getParameter("nlname"));
-            student.setSubEmail(request.getParameter("nlemail"));
+            student.setSubsName(request.getParameter("nlname"));
+            student.setSubsEmail(request.getParameter("nlemail"));
 
             new UserService().insertSubscriber(student);
 
@@ -126,6 +129,65 @@ public class User extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
+
+        // to display book info
+//        if (action.equalsIgnoreCase("getbook")) {
+//
+//            Student student = new Student();
+//
+//            try {
+//                student.setId(Integer.parseInt(request.getParameter("id")));
+//                String base64Image = new UserService().getbook(student);
+//                List<Student> bookinfo = new UserService().getBookList(student.getId());
+//                request.setAttribute("base64Image", base64Image);
+//                request.setAttribute("bookinfo", bookinfo);
+//            } catch (Exception e) {
+//                request.setAttribute("errorMessage", "Error retrieving image: " + e.getMessage());
+//            }
+//
+//            RequestDispatcher rd = request.getRequestDispatcher("UserSide/bookdisplay.jsp");
+//            rd.forward(request, response);
+//
+//
+//        }
+
+        if (action.equalsIgnoreCase("getbook")) {
+
+            Student student = new Student();
+            student.setId(Integer.parseInt(request.getParameter("id")));
+            HashMap<String, Object> details = null;
+            try {
+                details = new UserService().showDetails(student);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            request.setAttribute("details", details);
+
+            RequestDispatcher rd = request.getRequestDispatcher("UserSide/bookdisplay.jsp");
+            rd.forward(request, response);
+
+        }
+
+
+        //        For Searching books.
+
+        if (action.equalsIgnoreCase("userbsearch")) {
+            String query = request.getParameter("query");
+            List<Student> ubsearchResults = UserService.searchuBooks(query);
+            request.setAttribute("ubsearchResults", ubsearchResults);
+            request.setAttribute("query", query);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("UserSide/searchresults.jsp");
+            dispatcher.forward(request, response);
+        }
+
+//        // For redirecting bookinfo adter user search book
+//        if (action.equalsIgnoreCase("bookinfo")) {
+//            List<Student> bookinfo = new UserService().getBookList(bookId);
+//            request.setAttribute("bookinfo", bookinfo);
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("UserSide/bookdisplay.jsp");
+//            dispatcher.forward(request, response);
+//        }
+
 
         if (action.equalsIgnoreCase("changepassword")) {
 

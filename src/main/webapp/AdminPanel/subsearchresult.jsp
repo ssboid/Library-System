@@ -1,15 +1,24 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: Lenovo
+  Date: 3/31/2023
+  Time: 10:08 AM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page import="Model.Student" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Service.AdminService" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Issued Books | Library Management System</title>
-    <link rel="shortcut icon" type="image/jpg" href="CSS/images/LM.ico"/>
+    <title>Search Result | Library Management System</title>
+    <link rel="shortcut icon" type="image/jpg" href="LM.ico"/>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="CSS/styles.css">
     <script src="https://kit.fontawesome.com/6f3a65e23d.js" crossorigin="anonymous"></script>
@@ -25,6 +34,7 @@
                     <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
                 </ul>
             </div>
+
             <div class="two">
                 <ul>
                     <li class="headlink" id="userprofile"><a href="admin?page=logout" id="logout"
@@ -65,58 +75,66 @@
         </ul>
     </section>
 
-
     <section class="page">
         <div class="container">
             <div class="user-info-container">
                 <div class="user-info-container-sub">
-                    <div class="User-profile-heading">Issue a Book</div>
+
+                    <c:if test="${not empty searchResults}">
+                        <c:choose>
+                            <c:when test="${not empty query}">
+                                <p class="User-profile-heading">Matching results for "${query}"</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="User-profile-heading">Showing all subscribers</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:if>
+
+
+                    <br>
+                    <div class="searcher">
+                        <form action="admin?page=ssearch" method="post">
+                            <input type="text" name="query" id="admsearchbox" placeholder="Search...">
+                            <button type="submit" class="search_button"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+
                     <br>
                     <div class="User-profile-display displaytable">
                         <table>
                             <colgroup>
-                                <col span="1" style="width: 5%;">
-                                <col span="1" style="width: 60%;">
-                                <col span="1" style="width: 25%;">
-                                <col span="1" style="width: 10%;">
+                                <col span="1" style="width: 6%;">
+                                <col span="1" style="width: 50%;">
+                                <col span="1" style="width: 33%;">
+                                <col span="1" style="width: 11%;">
                             </colgroup>
                             <thead>
                             <tr>
-                                <th> </th>
-                                <th>Title</th>
-                                <th>Book Holder</th>
+                                <th>UID</th>
+                                <th>Name</th>
+                                <th>Email</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody id="paginated-list" data-current-page="1" aria-live="polite">
-                            <%
-                                PrintWriter printt = response.getWriter();
-                                List<Student> issuedbookList = new AdminService().getIssuedBookList();
-                                int sn =1;
-                                for (Student student : issuedbookList) {
-                            %>
-                            <tr>
-                                <td style="float:right; height: 24px;"><%=sn%>.
-                                </td>
-                                <td><%=student.getTitle()%>
-                                </td>
-                                <td><%=student.getUserName()%>
-                                </td>
-                                <td style="text-align: center;">
-                                    <div><img src="${pageContext.request.contextPath}/CSS/images/icons/edit.svg" class="manage edit" title="Edit issue details" style="float:left;"></div>
-                                    <div><img src="${pageContext.request.contextPath}/CSS/images/icons/checkmark.svg" class="manage unlock" title="Book Returned" style="float:right; height: 24px;">
-                                    </div>
-                                </td>
-
-                            </tr>
-
-                            <%
-                                    sn=sn+1;
-                                }
-                            %>
+                            <c:forEach items="${subscribersearch}" var="student" varStatus="status">
+                                <tr>
+                                    <td>${status.count}</td>
+                                    <td>${student.subsName}</td>
+                                    <td>${student.subsEmail}</td>
+                                    <td style="text-align: center;">
+                                        <div><a href="admin?page=deletesubs&&id=${student.id}"><img
+                                                src="${pageContext.request.contextPath}/CSS/images/icons/delet.svg"
+                                                class="manage lock" title="Delete subscriber"></a></div>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                             </tbody>
-
                         </table>
+                        <c:if test="${empty subscribersearch}">
+                            <p>Please enter a search query to see results.</p>
+                        </c:if>
                         <nav class="pagination-container">
                             <button class="pagination-button" id="prev-button" aria-label="Previous page"
                                     title="Previous page">
@@ -138,25 +156,7 @@
         </div>
     </section>
 </div>
-<div class="container" id="notification">
-    <div class="notifcard" id="registercard">
-        <br>
-        <a class="signup">Book Added</a>
-        <button class="enter" onclick="off()">OK</button>
-    </div>
-    <div id="shadowlayern" onclick="off()"></div>
-</div>
 <script src="CSS/paginationscript.js"></script>
-<script>
-    function on() {
-        document.getElementById("notification").style.display = "block";
-    }
-
-    function off() {
-        document.getElementById("notification").style.display = "none";
-    }
-</script>
-
 <script>
     var coll = document.getElementsByClassName("collapsible");
     var i;

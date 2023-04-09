@@ -100,24 +100,27 @@
                                 <%
                                     PrintWriter printt = response.getWriter();
                                     List<Student> userList = new AdminService().getUserList();
+                                    int sn = 1;
                                     for (Student student : userList) {
                                 %>
                                 <tr>
-                                    <td style="float:right; height: 24px;"><%=student.getId()%>.
+                                    <td style="float:right; height: 24px;"><%=sn%>.
                                     </td>
                                     <td><%=student.getUserName()%>
                                     </td>
                                     <td><%=student.getEmail()%>
                                     </td>
                                     <td style="text-align: center;">
-                                        <div><a href="admin?page=deleteuser&id=<%=student.getId()%>"><img src="${pageContext.request.contextPath}/CSS/images/icons/delet.svg"
-                                            class="manage lock" title="Delete user"></a>
+                                        <div><a href="admin?page=deleteuser&id=<%=student.getId()%>"><img
+                                                src="${pageContext.request.contextPath}/CSS/images/icons/delet.svg"
+                                                class="manage lock" title="Delete user"></a>
                                         </div>
                                     </td>
 
                                 </tr>
 
                                 <%
+                                        sn = sn + 1;
                                     }
                                 %>
                                 </tbody>

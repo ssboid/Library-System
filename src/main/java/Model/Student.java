@@ -39,6 +39,10 @@ public class Student {
 
     private String cover_image;
 
+
+
+    private String status;
+
     private boolean admin;
 
     public boolean getAdmin(){return admin;}
@@ -77,19 +81,19 @@ public class Student {
         this.password = password;
     }
 
-    public String getSubName() {
+    public String getSubsName() {
         return subsname;
     }
 
-    public void setSubName(String subsname) {
+    public void setSubsName(String subsname) {
         this.subsname = subsname;
     }
 
-    public String getSubEmail() {
+    public String getSubsEmail() {
         return subsemail;
     }
 
-    public void setSubEmail(String subsemail) {
+    public void setSubsEmail(String subsemail) {
         this.subsemail = subsemail;
     }
 
@@ -179,6 +183,14 @@ public class Student {
 
     public void setImage(String cover_image) {
         this.cover_image = cover_image;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getNewpassword() {

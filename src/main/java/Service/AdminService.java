@@ -248,4 +248,29 @@ public class AdminService {
     }
 
 
+
+    //    For searching subs
+
+    public static List<Student> searchSubs(String query) {
+        List<Student> subsearch = new ArrayList< >();
+        String sql = "SELECT * FROM subscribers WHERE subsname LIKE ?";
+        try (PreparedStatement ps = new DBConnection().getStatement(sql);) {
+            ps.setString(1, "%" + query + "%");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    System.out.println(ps);
+                    Student student = new Student();
+                    student.setId(rs.getInt("sid"));
+                    student.setSubsName(rs.getString("subsname"));
+                    student.setSubsEmail(rs.getString("subsemail"));
+                    subsearch.add(student);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return subsearch;
+    }
+
+
 }

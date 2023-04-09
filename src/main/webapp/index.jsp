@@ -21,7 +21,7 @@
             cursor: pointer;
         }
 
-        #profileprofile{
+        #profileprofile {
             text-decoration: none;
             color: #e35200;
             cursor: pointer;
@@ -44,9 +44,20 @@
             <div class="two">
                 <ul>
                     <li>
-                        <form>
-                            <input type="search" name="search" id="search" placeholder="Search...">
+                        <form action="user?page=userbsearch" method="post">
+                            <input type="search" name="query" id="search" placeholder="Search...">
+                            <%
+                                if (session.getAttribute("email") != null) {
+                            %>
                             <button type="submit" class="search_button"><i class="fas fa-search"></i></button>
+                            <%
+                            } else {
+                            %>
+                            <button type="button" class="search_button" onclick="onl()"><i class="fas fa-search"></i></button>
+                            <%
+                                }
+                            %>
+
                         </form>
                     </li>
                     <%
@@ -72,7 +83,8 @@
             <p id="king">Books are the windows to the world,<br>and a library is the gateway to endless
                 possibilities.</p>
             <p id="ful">Expand your horizons and explore new worlds with just a few clicks.<br>The possibilities are
-                endless, and the journey starts with a visit to our library website portal.</p>
+                endless, and the journey starts with a visit to our library website portal. Search for a title or simply
+                click on the search button to begin your adventure.</p>
         </div>
         <!--welcome box-->
         <div class="welc">

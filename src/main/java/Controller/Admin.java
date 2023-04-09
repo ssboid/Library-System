@@ -221,13 +221,27 @@ public class Admin extends HttpServlet {
 
 //        For Searching books.
 
-        if (action.equalsIgnoreCase("search")) {
+        if (action.equalsIgnoreCase("bsearch")) {
             String query = request.getParameter("query");
             List<Student> searchResults = AdminService.searchUsers(query);
             request.setAttribute("searchResults", searchResults);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("AdminPanel/search-results.jsp");
+            request.setAttribute("query", query);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("AdminPanel/booksearchresult.jsp");
             dispatcher.forward(request, response);
         }
+
+        //For Searching subscribers
+
+        if (action.equalsIgnoreCase("ssearch")) {
+            String query = request.getParameter("query");
+            List<Student> subscribersearch = AdminService.searchSubs(query);
+            request.setAttribute("subscribersearch", subscribersearch);
+            request.setAttribute("query", query);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("AdminPanel/subsearchresult.jsp");
+            dispatcher.forward(request, response);
+        }
+
+        // log out
 
         if (action.equalsIgnoreCase("logout")) {
             new UserService().logout(request, response);
