@@ -92,10 +92,11 @@
                             <%
                                 PrintWriter printt = response.getWriter();
                                 List<Student> issuedbookList = new AdminService().getIssuedBookList();
+                                int sn =1;
                                 for (Student student : issuedbookList) {
                             %>
                             <tr>
-                                <td style="float:right; height: 24px;"><%=student.getId()%>.
+                                <td style="float:right; height: 24px;"><%=sn%>.
                                 </td>
                                 <td><%=student.getTitle()%>
                                 </td>
@@ -110,6 +111,7 @@
                             </tr>
 
                             <%
+                                    sn=sn+1;
                                 }
                             %>
                             </tbody>

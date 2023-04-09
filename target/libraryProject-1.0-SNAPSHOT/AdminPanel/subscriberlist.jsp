@@ -77,6 +77,13 @@
                     <div class="user-info-container-sub">
                         <div class="User-profile-heading">Subscribers List</div>
                         <br>
+                        <div class="searcher">
+                            <form action="admin?page=ssearch" method="post">
+                                <input type="text" name="query" id="admsearchbox" placeholder="Search...">
+                                <button type="submit" class="search_button"><i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
+                        <br>
                         <div class="User-profile-display displaytable">
                             <main>
                                 <table>
@@ -98,10 +105,11 @@
                                     <%
                                         PrintWriter printt = response.getWriter();
                                         List<Student> subscriberList = new AdminService().getSubscriberList();
+                                         int sn = 1;
                                         for (Student student : subscriberList) {
                                     %>
                                     <tr>
-                                        <td style="float:right; height: 24px;"><%=student.getId()%>.
+                                        <td style="float:right; height: 24px;"><%=sn%>.
                                         </td>
                                         <td><%=student.getUserName()%>
                                         </td>
@@ -116,6 +124,7 @@
                                     </tr>
 
                                     <%
+                                            sn=sn+1;
                                         }
                                     %>
                                     </tbody>

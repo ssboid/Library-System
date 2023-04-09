@@ -14,6 +14,8 @@ body {
 }
 
 
+
+
 /* nav bar */
 .pagehead {
     width: 100%;
@@ -67,7 +69,7 @@ body {
     border-style: none;
     border-left: 0px;
     color: #e36a00;
-    background-color: #fff7f2;
+    background-color:transparent;
     cursor: pointer;
 }
 
@@ -434,6 +436,12 @@ body {
     margin-bottom: 25px;
 }
 
+#profileprofile{
+    text-decoration: none;
+    color: #e35200;
+    cursor: pointer;
+}
+
 /* sign up/login */
 
 
@@ -449,6 +457,7 @@ body {
     right: 0;
     bottom: 0;
     z-index: 2;
+
 }
 
 #shadowlayerl,
@@ -464,6 +473,7 @@ body {
     z-index: 4;
     cursor: pointer;
     margin-top: -50px;
+
 
 }
 
@@ -785,7 +795,8 @@ body {
 }
 
 .book-info-form,
-.user-info-container {
+.user-info-container,
+.search-result-container{
     background-color: rgb(34, 34, 34);
     width: 1000px;
     display: flex;
@@ -944,7 +955,7 @@ input[type=number] {
 }
 
 .book-image {
-    background-image: url("C:\Users\Lenovo\IdeaProjects\libraryProject\src\main\webapp\CSS\images\bookimages\NOIMAGE.png");
+    background-image: url("../CSS/images/bookimages/NOIMAGE.png");
     width: 100%;
     height: auto;
 }
@@ -1003,10 +1014,30 @@ input[type=number] {
 
 }
 
-.User-profile-display {
+.User-profile-display,
+.search-result-display{
     box-sizing: border-box;
     padding: 15px;
     width: 100%;
+}
+
+.searcher{
+    float: right;
+    margin-right: -120px;
+
+}
+
+#admsearchbox{
+    border-radius: 3px;
+    width: 200px;
+    height: 25px;
+    margin-top: -18px;
+    border-width: 1px;
+    border-color: rgb(156, 156, 156);
+    background-color: #fff3ed;
+    padding-left: 10px;
+    font-family: 'Poppins', sans-serif;
+    position: inherit;
 }
 
 .user-info {
@@ -1187,6 +1218,11 @@ table tbody tr td {
 .pagination-number.active {
     color: #fff;
     background: #e37100;
+}
+
+.infolink{
+    color: white;
+    text-decoration: none;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');

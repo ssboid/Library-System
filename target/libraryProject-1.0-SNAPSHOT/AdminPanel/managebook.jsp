@@ -33,18 +33,7 @@
                     <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
                 </ul>
             </div>
-            <div class="two">
-                <ul>
-                    <div class="two">
-                        <ul>
-                            <form action="admin?page=search" method="post">
-                                <input type="text" name="query"  placeholder="Search...">
-                                <button type="submit">Search</button>
-                            </form>
-                        </ul>
-                    </div>
-                </ul>
-            </div>
+
             <div class="two">
                 <ul>
                     <li class="headlink" id="userprofile"><a href="admin?page=logout" id="logout"
@@ -91,6 +80,13 @@
                 <div class="user-info-container-sub">
                     <div class="User-profile-heading">Manage Books</div>
                     <br>
+                    <div class="searcher">
+                        <form action="admin?page=bsearch" method="post">
+                            <input type="text" name="query" id="admsearchbox" placeholder="Search...">
+                            <button type="submit" class="search_button"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                    <br>
                     <div class="User-profile-display displaytable">
                         <table>
                             <colgroup>
@@ -111,11 +107,11 @@
                             <%
                                 PrintWriter printt = response.getWriter();
                                 List<Student> bookList = new AdminService().getBookList();
-
+                                int sn =1;
                                 for (Student student : bookList) {
                             %>
                             <tr>
-                                <td style="float:right; height: 24px;"><%=student.getId()%>.
+                                <td style="float:right; height: 24px;"><%=sn%>.
                                 </td>
                                 <td><%=student.getTitle()%>
                                 </td>
@@ -134,6 +130,7 @@
                             </tr>
 
                             <%
+                                    sn=sn+1;
                                 }
                             %>
                             </tbody>
