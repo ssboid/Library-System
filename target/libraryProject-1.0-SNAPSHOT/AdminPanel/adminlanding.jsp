@@ -1,3 +1,8 @@
+<%@ page import="Service.AdminService.SessionChecker" %>
+<%
+    SessionChecker sessionChecker = new SessionChecker();
+    sessionChecker.checkSession(request, response);
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +22,7 @@
         <div class="headtitles" id="headtitlesfix">
             <div class="one">
                 <ul>
-                    <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
+                    <img src="CSS/images/LMB.png" id="logo"></li>
                 </ul>
             </div>
             <div class="two">

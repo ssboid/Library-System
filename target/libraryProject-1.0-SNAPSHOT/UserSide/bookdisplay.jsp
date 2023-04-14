@@ -1,15 +1,14 @@
 <%@ page import="Service.UserService" %>
 <%@ page import="Model.Student" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.io.PrintWriter" %><%--
-  Created by IntelliJ IDEA.
-  User: Lenovo
-  Date: 4/6/2023
-  Time: 1:35 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.io.PrintWriter" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Service.UserService.SessionChecker" %>
+<%
+    SessionChecker sessionChecker = new SessionChecker();
+    sessionChecker.checkSession(request, response);
+%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -24,13 +23,19 @@
     <div class="pagehead">
         <div class="headtitles" id="headtitlesfix">
             <div class="one">
-                <ul>
-                    <li><a href="user?page=home"><img src="${pageContext.request.contextPath}/CSS/images/LMB.png"
-                                                      id="logo"></a></li>
-                </ul>
+                <a href="user?page=home" style="text-decoration: none">
+                    <ul>
+                        <li><img src="${pageContext.request.contextPath}/CSS/images/LMB.png"
+                                 id="logo"></li>
+                        <li id="name">LIBRI<br><span id="mahiti">MAHITI</span></li>
+                    </ul>
+                </a>
             </div>
             <div class="two">
                 <ul>
+                    <a href="user?page=browse" style="text-decoration: none">
+                        <li class="browselink" id="browse"><span>BROWSE</span></li>
+                    </a>
                     <li>
                         <form action="user?page=userbsearch" method="post">
                             <input type="search" name="query" id="search" placeholder="Search...">
@@ -49,17 +54,11 @@
     <div class="book-info-form">
         <div class="book-image-reservation">
             <div class="book-image-container">
-                    <img class="book-image" src="<c:choose>
-                                <c:when test="${not empty details.bimage}">
-                                    data:image/png;base64,${details.bimage}
-                                </c:when>
-                                <c:otherwise>
-                                    ${pageContext.request.contextPath}/CSS/images/bookimages/NOIMAGE.png
-                                </c:otherwise>
-                            </c:choose>">
+                    <img class="book-image" src="data:image/png;base64,${details.bimage}">
 
             </div>
-            <button class="reservation-button" onclick="on()">Reservation</button>
+       <a href="user?page=wishlist&title=${details.btitle}" class="reservation-button" onclick="on()">Add to wish list</a>
+
         </div>
         <div class="book-details">
             <div>
@@ -106,7 +105,7 @@
 <div class="container" id="notification">
     <div class="notifcard" id="registercard">
         <br>
-        <a class="signup">Book Registered!</a>
+        <a class="signup">Book Added to the wishlist!</a>
         <button class="enter" onclick="off()">OK</button>
     </div>
     <div id="shadowlayern" onclick="off()"></div>

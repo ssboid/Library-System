@@ -1,10 +1,13 @@
+<%@ page import="Service.UserService" %>
+<%@ page import="Model.Student" %>
+<%@ page import="java.util.List" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="Service.UserService.SessionChecker" %>
 <%
     SessionChecker sessionChecker = new SessionChecker();
     sessionChecker.checkSession(request, response);
 %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -26,13 +29,14 @@
                         <li id="name">LIBRI<br><span id="mahiti">MAHITI</span></li>
                     </ul>
                 </a>
-
             </div>
             <div class="two">
                 <ul>
                     <a href="user?page=browse" style="text-decoration: none">
-                        <li class="browselink" id="browse"><span>BROWSE</span></li>
+                        <li class="browselink" style="color: #3D3D3DFF; border-bottom: 3px solid #e35200; cursor: pointer;">
+                            <span>BROWSE</span></li>
                     </a>
+
                     <li>
                         <form action="user?page=userbsearch" method="post">
                             <input type="search" name="query" id="search" placeholder="Search...">
@@ -58,16 +62,7 @@
 <div class="container">
     <div class="user-info-container">
         <div class="user-info-container-sub">
-            <c:if test="${not empty ubsearchResults}">
-                <c:choose>
-                    <c:when test="${not empty query}">
-                        <p class="User-profile-heading">Matching results for "${query}"</p>
-                    </c:when>
-                    <c:otherwise>
-                        <p class="User-profile-heading">Showing all books</p>
-                    </c:otherwise>
-                </c:choose>
-            </c:if>
+            <div class="User-profile-heading">All Books</div>
 
             <br>
             <div class="search-result-display displaytable">
@@ -89,22 +84,26 @@
                     </tr>
                     </thead>
                     <tbody id="paginated-list" data-current-page="1" aria-live="polite">
-                    <c:forEach items="${ubsearchResults}" var="student" varStatus="status">
+                    <%
+                        List<Student> bookList = new UserService().getBookListbyNew();
+                        int sn =1;
+                        for (Student student : bookList) {
+                    %>
                         <tr>
-                            <td>${status.count}</td>
-                            <td><a href="user?page=getbook&id=${student.id}" class="infolink">${student.title}</a></td>
-                            <td><a href="user?page=getbookauthor&query=${student.author}" class="infolink">${student.author}</a></td>
-                            <td><a href="user?page=getgenre&query=${student.genre}" class="infolink">${student.genre}</a></td>
-                            <td>${student.status}</td>
+                            <td><%=sn%></td>
+                            <td><a href="user?page=getbook&id=<%=student.getId()%>" class="infolink"><%=student.getTitle()%></a></td>
+                            <td><a href="user?page=getbookauthor&query=<%=student.getAuthor()%>" class="infolink"><%=student.getAuthor()%></a></td>
+                            <td><a href="user?page=getgenre&query=<%=student.getGenre()%>" class="infolink"><%=student.getGenre()%></a></td>
+                            <td><%=student.getStatus()%></td>
                         </tr>
 
-                    </c:forEach>
+                    <%
+                            sn=sn+1;
+                        }
+                    %>
                     </tbody>
 
                 </table>
-                <c:if test="${empty ubsearchResults}">
-                    <p>Please enter a search query to see results.</p>
-                </c:if>
                 <nav class="pagination-container">
                     <button class="pagination-button" id="prev-button" aria-label="Previous page"
                             title="Previous page">

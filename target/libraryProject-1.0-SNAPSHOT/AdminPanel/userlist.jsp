@@ -1,16 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lenovo
-  Date: 3/31/2023
-  Time: 10:09 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page import="Model.Student" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Service.AdminService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Service.AdminService.SessionChecker" %>
+<%
+    SessionChecker sessionChecker = new SessionChecker();
+    sessionChecker.checkSession(request, response);
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +28,7 @@
         <div class="headtitles" id="headtitlesfix">
             <div class="one">
                 <ul>
-                    <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
+                    <li><img src="CSS/images/LMB.png" id="logo"></li>
                 </ul>
             </div>
             <div class="two">
@@ -80,6 +78,13 @@
                     <div class="user-info-container-sub">
                         <div class="User-profile-heading">Users List</div>
                         <br>
+                        <div class="searcher">
+                            <form action="admin?page=usearch" method="post">
+                                <input type="text" name="query" id="admsearchbox" placeholder="Search...">
+                                <button type="submit" class="search_button"><i class="fas fa-search"></i></button>
+                            </form>
+                        </div>
+                        <br>
                         <div class="User-profile-display displaytable">
                             <table>
                                 <colgroup>
@@ -99,7 +104,7 @@
                                 <tbody id="paginated-list" data-current-page="1" aria-live="polite">
                                 <%
                                     PrintWriter printt = response.getWriter();
-                                    List<Student> userList = new AdminService().getUserList();
+                                    List<Student> userList = new AdminService().getAllUsers();
                                     int sn = 1;
                                     for (Student student : userList) {
                                 %>
@@ -120,6 +125,7 @@
                                 </tr>
 
                                 <%
+
                                         sn = sn + 1;
                                     }
                                 %>

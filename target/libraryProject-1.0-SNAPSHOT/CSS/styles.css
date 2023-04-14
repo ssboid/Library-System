@@ -50,8 +50,9 @@ body {
 .headtitles ul li {
     list-style: none;
     /* float: left; */
-    color: rgb(61, 61, 61);
+    /*color: #3D3D3DFF;*/
     text-align: center;
+    color: #e35200;
 
 }
 
@@ -61,6 +62,23 @@ body {
     padding-left: 40px;
     padding-right: 40px;
     margin-top: -30px;
+}
+
+.browselink {
+    padding-top: 32px;
+    padding-bottom: 24px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 30px;
+    margin-top: -30px;
+}
+
+#name{
+    font-size: 26px;
+    line-height: 1;
+    margin-top: -11px;
+    text-align: left;
+    color: #3D3D3DFF;
 }
 
 .search_button {
@@ -91,18 +109,25 @@ body {
     height: 50px;
     margin-top: -20px;
     float: left;
-    padding-right: 100px;
+    padding-right: 20px;
     padding-left: 40px;
     padding-top: 10px;
 }
 
-#browse:hover {
-    border-bottom: 3px solid #e35200;
+
+
+#mahiti{
+    color: #e35200;
 }
 
-#browse:hover .dropdown-content {
-    display: block;
+.browselink:hover {
+    border-bottom: 3px solid #e35200;
+    cursor: pointer;
 }
+
+/*#browse:hover .dropdown-content {*/
+/*    display: block;*/
+/*}*/
 
 .dropdown-content {
     display: none;
@@ -192,6 +217,7 @@ body {
 
 #userprofile {
     text-decoration: none;
+    color: #3D3D3DFF;
 }
 
 
@@ -222,8 +248,8 @@ body {
 #ful {
     margin-top: 50px;
     font-size: 20px;
-    width: 80%;
-    letter-spacing: 2px;
+    width: 85%;
+    letter-spacing: 1px;
     line-height: 1.6;
 }
 
@@ -298,6 +324,7 @@ body {
     color: #e35200;
     float: right;
     margin-right: 10%;
+    text-decoration: none;
 }
 
 .hpbooks ul {
@@ -324,9 +351,21 @@ body {
 }
 
 .bimage {
-    height: 90%;
-    width: 100%;
-    background-color: darkslategray;
+    height: 350px;
+    width: 250px;
+
+}
+
+.bimage:hover {
+    width: 260px;
+    height: 360px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.39), 0 6px 20px 0 rgba(0, 0, 0, 0.42);
+
+;
+}
+
+.barrier{
+    cursor: pointer;
 }
 
 .bname {
@@ -335,7 +374,8 @@ body {
     box-sizing: border-box;
     padding: 5px;
     /* background-color:olivedrab; */
-    color: #e35200
+    color: #e35200;
+    text-decoration: none;
 }
 
 
@@ -966,9 +1006,11 @@ input[type=number] {
     background-color: #e36a00;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
 }
 
 .reservation-button:hover {
@@ -998,9 +1040,8 @@ input[type=number] {
 }
 
 .book-details p {
-    font-size: 16px;
+    font-size: 18px;
     margin: 0;
-    font-weight: 300;
     word-spacing: 8px;
 }
 

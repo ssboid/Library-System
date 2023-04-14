@@ -1,10 +1,22 @@
+<%@ page import="Model.Student" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Service.AdminService" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Service.AdminService.SessionChecker" %>
+<%
+    SessionChecker sessionChecker = new SessionChecker();
+    sessionChecker.checkSession(request, response);
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Editing | Library Management System</title>
-    <link rel="shortcut icon" type="image/jpg" href="CSS/images/LM.ico"/>
+    <title>Manage Books | Library Management System</title>
+    <link rel="shortcut icon" type="image/jpg" href="LM.ico"/>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="CSS/styles.css">
     <script src="https://kit.fontawesome.com/6f3a65e23d.js" crossorigin="anonymous"></script>
@@ -17,7 +29,7 @@
         <div class="headtitles" id="headtitlesfix">
             <div class="one">
                 <ul>
-                    <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
+                    <img src="CSS/images/LMB.png" id="logo"></li>
                 </ul>
             </div>
         </div>
@@ -61,24 +73,27 @@
                 <div class="user-info-container-sub">
                     <div class="User-profile-heading">Editing..</div>
                     <br>
+
                     <div class="User-profile-display displaytable">
-                        <form action="admin?page=editbook" method="post">
+                        <form action="admin?page=editbook&id=${student.id}" method="post">
+
+                            <input type="hidden" name="id" value="${student.id}">
                             <div class="inputsection">
                                 <label for="title">Title:</label><br>
-                                <input type="text" class="input-box" id="title" name="title" required><br>
+                                <input type="text" class="input-box" id="title" name="title" value="${student.title}" required><br>
                             </div>
                             <div class="inputsection">
                                 <label for="author">Author:</label><br>
-                                <input type="text" class="input-box" id="author" name="author" required><br>
+                                <input type="text" class="input-box" id="author" name="author" value="${student.author}" required><br>
                             </div>
                             <div class="inputsection">
                                 <label for="isbn">ISBN:</label><br>
-                                <input type="number" pattern="[0-9]" class="input-box" id="isbn" name="isbn"
+                                <input type="number" pattern="[0-9]" class="input-box" id="isbn" name="isbn" value="${student.isbn}"
                                        required><br>
                             </div>
                             <div class="inputsection">
                                 <label for="publisher">Publisher:</label><br>
-                                <input type="text" class="input-box" id="publisher" name="publisher" required><br>
+                                <input type="text" class="input-box" id="publisher" name="publisher" value="${student.publisher}" required><br>
                             </div>
                             <div class="inputsection inputsection-sub" style="margin-bottom: 0px;">
                                 <div class="compact">
@@ -96,9 +111,9 @@
                             </div>
                             <div class="inputsection inputsection-sub">
                                 <input type="number" pattern="[0-9]" class="input-box" id="publication_year"
-                                       name="publication_year"
+                                       name="publication_year" value="${student.pubYear}"
                                        required>
-                                <select class="input-box compactf" id="genre" name="genre" style="width: 21.5%;"
+                                <select class="input-box compactf"  id="genre" name="genre"  style="width: 21.5%;"
                                         required>
                                     <option value="" disabled selected>-- Select a genre --</option>
                                     <option value="Adventure">Adventure</option>
@@ -106,13 +121,13 @@
                                     <option value="Children">Children</option>
                                     <option value="Cookbook">Cookbook</option>
                                     <option value="Contemporary">Contemporary</option>
-                                    <option value="Deveelopment">Development</option>
+                                    <option value="Development">Development</option>
                                     <option value="Dystopian">Dystopian</option>
-                                    <option value="famnilyrelations">Families & Relationship</option>
+                                    <option value="Families & Relationship">Families & Relationship</option>
                                     <option value="Fantasy">Fantasy</option>
                                     <option value="Guide">Guide / How-to</option>
                                     <option value="Health">Health</option>
-                                    <option value="Historicalf">Historical Fiction</option>
+                                    <option value="Historical Fiction">Historical Fiction</option>
                                     <option value="History">History</option>
                                     <option value="Horror">Horror</option>
                                     <option value="Humor">Humor</option>
@@ -121,33 +136,36 @@
                                     <option value="Mystery">Mystery</option>
                                     <option value="Paranormal">Paranormal</option>
                                     <option value="Romance">Romance</option>
-                                    <option value="Scifi">Science Fiction</option>
+                                    <option value="Science Fiction">Science Fiction</option>
                                     <option value="Self-Help">Self-help</option>
                                     <option value="Thriller">Thriller</option>
                                     <option value="Travel">Travel</option>
                                 </select>
                                 <input type="number" pattern="[0-9]" class="input-box compactf" id="number_of_pages"
-                                       name="number_of_pages"
+                                       name="number_of_pages" value="${student.pages}"
                                        style="width: 22%;" required>
-                                <input type="text" class="input-box compactf" id="language" name="language"
+                                <input type="text" class="input-box compactf" id="language" name="language"value="${student.language}"
                                        style="width: 25%;"
                                        required>
                             </div>
                             <div class="inputsection">
                                 <label for="location">Location:</label><br>
-                                <input type="text" class="input-box" id="location" name="location" required><br>
+                                <input type="text" class="input-box" id="location" name="location" value="${student.location}" required><br>
                             </div>
                             <div class="inputsection">
-                                <label for="synopsis">Synopsis:</label><br>
-                                <textarea id="synopsis" name="synopsis" rows="5"></textarea><br>
+                                <label for="synopsis" >Synopsis:</label><br>
+                                <textarea id="synopsis" name="synopsis"  rows="5" >${student.synopsis}
+                                </textarea><br>
+
                             </div>
-<%--                            <div class="inputsection">--%>
-<%--                                <label for="cover_image"></label><br>--%>
-<%--                                <input type="file" id="cover_image" name="cover_image" accept="image/*">--%>
-<%--                            </div>--%>
+                            <div class="inputsection">
+                                <label for="cover_image"></label><br>
+                                <input type="file" id="cover_image" name="cover_image"  accept="image/*">
+                            </div>
                             <img id="preview" src="#" alt="Preview Image"><br>
                             <input type="submit" value="FINISH" id="add" title="Finish Editing"
-                                   onclick="on()">
+                                   >
+
                         </form>
                     </div>
                 </div>
@@ -158,7 +176,7 @@
 <div class="container" id="notification">
     <div class="notifcard" id="registercard">
         <br>
-        <a class="signup">Book Added</a>
+        <a class="signup">Book Edited</a>
 <%--        <button class="enter" onclick="off()">OK</button>--%>
     </div>
     <div id="shadowlayern" onclick="off()"></div>
