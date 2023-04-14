@@ -1,17 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Lenovo
-  Date: 3/31/2023
-  Time: 10:08 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page import="Model.Student" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Service.AdminService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Service.AdminService.SessionChecker" %>
+<%
+    SessionChecker sessionChecker = new SessionChecker();
+    sessionChecker.checkSession(request, response);
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +29,7 @@
         <div class="headtitles" id="headtitlesfix">
             <div class="one">
                 <ul>
-                    <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
+                    <li><img src="CSS/images/LMB.png" id="logo"></li>
                 </ul>
             </div>
 
@@ -121,10 +119,10 @@
                             <c:forEach items="${subscribersearch}" var="student" varStatus="status">
                                 <tr>
                                     <td>${status.count}</td>
-                                    <td>${student.subsName}</td>
-                                    <td>${student.subsEmail}</td>
+                                    <td>${student.getSubsName()}</td>
+                                    <td>${student.getSubsEmail()}</td>
                                     <td style="text-align: center;">
-                                        <div><a href="admin?page=deletesubs&&id=${student.id}"><img
+                                        <div><a href="admin?page=deletesubs&&id=${student.getId()}"><img
                                                 src="${pageContext.request.contextPath}/CSS/images/icons/delet.svg"
                                                 class="manage lock" title="Delete subscriber"></a></div>
                                     </td>

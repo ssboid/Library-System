@@ -1,14 +1,21 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Lenovo
+  Date: 4/8/2023
+  Time: 11:13 AM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="Service.UserService.SessionChecker" %>
 <%
     SessionChecker sessionChecker = new SessionChecker();
     sessionChecker.checkSession(request, response);
 %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Search Results | Library Management System</title>
+    <title>Books by ${author}| Library Management System</title>
     <link rel="shortcut icon" type="image/jpg" href="${pageContext.request.contextPath}/CSS/images/LM.ico"/>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/styles.css">
@@ -58,10 +65,10 @@
 <div class="container">
     <div class="user-info-container">
         <div class="user-info-container-sub">
-            <c:if test="${not empty ubsearchResults}">
+            <c:if test="${not empty ubasearchResults}">
                 <c:choose>
-                    <c:when test="${not empty query}">
-                        <p class="User-profile-heading">Matching results for "${query}"</p>
+                    <c:when test="${not empty author}">
+                        <p class="User-profile-heading">Books by ${author}</p>
                     </c:when>
                     <c:otherwise>
                         <p class="User-profile-heading">Showing all books</p>
@@ -89,7 +96,7 @@
                     </tr>
                     </thead>
                     <tbody id="paginated-list" data-current-page="1" aria-live="polite">
-                    <c:forEach items="${ubsearchResults}" var="student" varStatus="status">
+                    <c:forEach items="${ubasearchResults}" var="student" varStatus="status">
                         <tr>
                             <td>${status.count}</td>
                             <td><a href="user?page=getbook&id=${student.id}" class="infolink">${student.title}</a></td>
@@ -97,12 +104,12 @@
                             <td><a href="user?page=getgenre&query=${student.genre}" class="infolink">${student.genre}</a></td>
                             <td>${student.status}</td>
                         </tr>
-
                     </c:forEach>
+
                     </tbody>
 
                 </table>
-                <c:if test="${empty ubsearchResults}">
+                <c:if test="${empty ubasearchResults}">
                     <p>Please enter a search query to see results.</p>
                 </c:if>
                 <nav class="pagination-container">

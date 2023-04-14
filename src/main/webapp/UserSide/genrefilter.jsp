@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Search Results | Library Management System</title>
+    <title>Books in ${genre}| Library Management System</title>
     <link rel="shortcut icon" type="image/jpg" href="${pageContext.request.contextPath}/CSS/images/LM.ico"/>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/styles.css">
@@ -58,10 +58,10 @@
 <div class="container">
     <div class="user-info-container">
         <div class="user-info-container-sub">
-            <c:if test="${not empty ubsearchResults}">
+            <c:if test="${not empty ubgsearchResults}">
                 <c:choose>
-                    <c:when test="${not empty query}">
-                        <p class="User-profile-heading">Matching results for "${query}"</p>
+                    <c:when test="${not empty genre}">
+                        <p class="User-profile-heading">Books in ${genre}</p>
                     </c:when>
                     <c:otherwise>
                         <p class="User-profile-heading">Showing all books</p>
@@ -89,7 +89,7 @@
                     </tr>
                     </thead>
                     <tbody id="paginated-list" data-current-page="1" aria-live="polite">
-                    <c:forEach items="${ubsearchResults}" var="student" varStatus="status">
+                    <c:forEach items="${ubgsearchResults}" var="student" varStatus="status">
                         <tr>
                             <td>${status.count}</td>
                             <td><a href="user?page=getbook&id=${student.id}" class="infolink">${student.title}</a></td>
@@ -97,12 +97,12 @@
                             <td><a href="user?page=getgenre&query=${student.genre}" class="infolink">${student.genre}</a></td>
                             <td>${student.status}</td>
                         </tr>
-
                     </c:forEach>
+
                     </tbody>
 
                 </table>
-                <c:if test="${empty ubsearchResults}">
+                <c:if test="${empty ubgsearchResults}">
                     <p>Please enter a search query to see results.</p>
                 </c:if>
                 <nav class="pagination-container">

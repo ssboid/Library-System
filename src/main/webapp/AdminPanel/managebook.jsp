@@ -1,16 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lenovo
-  Date: 3/31/2023
-  Time: 10:08 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page import="Model.Student" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Service.AdminService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="Service.AdminService.SessionChecker" %>
+<%
+    SessionChecker sessionChecker = new SessionChecker();
+    sessionChecker.checkSession(request, response);
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +28,7 @@
         <div class="headtitles" id="headtitlesfix">
             <div class="one">
                 <ul>
-                    <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
+                    <li><img src="CSS/images/LMB.png" id="logo"></li>
                 </ul>
             </div>
 
@@ -106,7 +104,7 @@
                             <tbody id="paginated-list" data-current-page="1" aria-live="polite">
                             <%
                                 PrintWriter printt = response.getWriter();
-                                List<Student> bookList = new AdminService().getBookList();
+                                List<Student> bookList = new AdminService().getAllBooks();
                                 int sn =1;
                                 for (Student student : bookList) {
                             %>
@@ -118,7 +116,7 @@
                                 <td><%=student.getAuthor()%>
                                 </td>
                                 <td style="text-align: center;">
-                                    <div><a href="admin?page=gotoeditbook"><img
+                                    <div><a href="admin?page=gotoeditbook&id=<%=student.getId()%>"><img
                                             src="${pageContext.request.contextPath}/CSS/images/icons/edit.svg"
                                             class="manage edit" title="Edit Book" style="float:left;"></a></div>
                                     <div><a href="admin?page=deletebook&id=<%=student.getId()%>"><img

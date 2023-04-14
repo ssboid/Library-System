@@ -1,3 +1,6 @@
+<%@ page import="java.util.HashMap" %>
+<%@ page import="Model.Student" %>
+<%@ page import="Service.UserService" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,12 +40,30 @@
         <!--nav bar-->
         <div class="headtitles">
             <div class="one">
-                <ul>
-                    <li><a href="user?page=home"><img src="CSS/images/LMB.png" id="logo"></a></li>
-                </ul>
+                <a href="user?page=home" style="text-decoration: none">
+                    <ul>
+                        <li><img src="${pageContext.request.contextPath}/CSS/images/LMB.png"
+                                 id="logo"></li>
+                        <li id="name">LIBRI<br><span id="mahiti">MAHITI</span></li>
+                    </ul>
+                </a>
             </div>
             <div class="two">
                 <ul>
+                    <%
+                        if (session.getAttribute("email") != null) {
+                    %>
+                    <a href="user?page=browse" style="text-decoration: none">
+                        <li class="browselink" class="browse"><span>BROWSE</span></li>
+                    </a>
+                    <%
+                    } else {
+                    %>
+                    <li class="browselink" class="browse" onclick="onl()"><span>BROWSE</span></li>
+                    <%
+                        }
+                    %>
+
                     <li>
                         <form action="user?page=userbsearch" method="post">
                             <input type="search" name="query" id="search" placeholder="Search...">
@@ -53,7 +74,8 @@
                             <%
                             } else {
                             %>
-                            <button type="button" class="search_button" onclick="onl()"><i class="fas fa-search"></i></button>
+                            <button type="button" class="search_button" onclick="onl()"><i class="fas fa-search"></i>
+                            </button>
                             <%
                                 }
                             %>
@@ -100,7 +122,7 @@
         </div>
     </div>
 </header>
-
+<br><br>
 <!--body-->
 <div>
     <!--"popular section" heading-->
@@ -116,35 +138,55 @@
     <div class="displaybox">
         <div class="hpbooks">
             <ul>
+                <%
+                    UserService student = new UserService();
+                    HashMap<String, Object> popularBooks = student.showPopular();
+                    for (int i = 0; i < 4; i++) {
+                        String title = (String) popularBooks.get("btitle" + i);
+                        String image = (String) popularBooks.get("bimage" + i);
+                        int id = (int) popularBooks.get("bid" + i);
+                %>
                 <li>
-                    <div class="hpimage"> <!--link this to book info page-->
-                        <div class="bimage"><!--insert book imge here--></div>
-                        <div class="bname">Placeholder name but wat if it overflowed<!--insert book name here-->
+                    <%
+                        if (session.getAttribute("email") != null) {
+                    %>
+                    <div class="hpimage">
+                        <div><a href="user?page=getbook&id=<%=id%>" class="bname">
+                            <img src="data:image/jpeg;base64, <%=image%> " alt="<%=title%>" class="bimage"></a>
+                        </div>
+                        <div class="bname"><a href="user?page=getbook&id=<%=id%>" class="bname"><%=title%>
+                        </a>
                         </div>
                     </div>
-                </li>
-                <li>
+                    <%
+                    } else {
+                    %>
                     <div class="hpimage">
-                        <div class="bimage"></div>
-                        <div class="bname">Placeholder name and it did overflow<!--insert book name here--></div>
-                    </div>
-                </li>
-                <li>
-                    <div class="hpimage">
-                        <div class="bimage"></div>
-                        <div class="bname">Placeholder name and it didnt screw me over<!--insert book name here-->
+                        <div>
+                            <img src="data:image/jpeg;base64, <%=image%> " alt="<%=title%>" class="bimage barrier"
+                                 onclick="onl()">
+                        </div>
+                        <div class="bname barrier" onclick="onl()"><%=title%>
                         </div>
                     </div>
+                    <%}%>
                 </li>
-                <li>
-                    <div class="hpimage">
-                        <div class="bimage"></div>
-                        <div class="bname">Placeholder name and now what<!--insert book name here--></div>
-                    </div>
-                </li>
+                <%
+                    }
+                %>
             </ul>
         </div>
-        <p class="seemore">See more...</p><!--hyperlink to "popular books"-->
+        <%
+            if (session.getAttribute("email") != null) {
+        %>
+        <p><a href="user?page=popular" class="seemore">See more...</a></p>
+        <%
+        } else {
+        %>
+        <p><a class="seemore barrier" onclick="onl()">See more...</a></p>
+        <%
+            }
+        %>
     </div>
     <!--"new section" heading-->
     <div class="labels">
@@ -155,39 +197,62 @@
             Browse our newest additions
         </div>
     </div>
-    <!--"popular section" images-->
+    <!--"new section" images-->
     <div class="displaybox">
         <div class="hpbooks">
             <ul>
+                <%
+                    UserService student2 = new UserService();
+                    HashMap<String, Object> newBooks = student.showNew();
+                    for (int i = 0; i < 4; i++) {
+                        String title = (String) newBooks.get("btitle" + i);
+                        String image = (String) newBooks.get("bimage" + i);
+                        int id = (int) popularBooks.get("bid" + i);
+
+                %>
                 <li>
-                    <div class="hpimage"> <!--link this to book info page-->
-                        <div class="bimage"><!--insert book imge here--></div>
-                        <div class="bname">Placeholder name but wat if it overflowed<!--insert book name here-->
+                    <%
+                        if (session.getAttribute("email") != null) {
+                    %>
+                    <div class="hpimage">
+                        <div><a href="user?page=getbook&id=<%=id%>" class="bname">
+                            <img src="data:image/jpeg;base64, <%=image%> " alt="<%=title%>" class="bimage"></a>
+                        </div>
+                        <div class="bname"><a href="user?page=getbook&id=<%=id%>" class="bname"><%=title%>
+                        </a>
                         </div>
                     </div>
-                </li>
-                <li>
+                    <%
+                    } else {
+                    %>
                     <div class="hpimage">
-                        <div class="bimage"></div>
-                        <div class="bname">Placeholder name and it did overflow<!--insert book name here--></div>
-                    </div>
-                </li>
-                <li>
-                    <div class="hpimage">
-                        <div class="bimage"></div>
-                        <div class="bname">Placeholder name and it didnt screw me over<!--insert book name here-->
+                        <div>
+                            <img src="data:image/jpeg;base64, <%=image%> " alt="<%=title%>" class="bimage barrier"
+                                 onclick="onl()">
+                        </div>
+                        <div class="bname barrier" onclick="onl()"><%=title%>
                         </div>
                     </div>
+                    <%}%>
                 </li>
-                <li>
-                    <div class="hpimage">
-                        <div class="bimage"></div>
-                        <div class="bname">Placeholder name and now what<!--insert book name here--></div>
-                    </div>
-                </li>
+                <%
+                    }
+                %>
             </ul>
+
+
         </div>
-        <p class="seemore">See more...</p><!--hyperlink to "popular books"-->
+        <%
+            if (session.getAttribute("email") != null) {
+        %>
+        <p><a href="user?page=new" class="seemore">See more...</a></p>
+        <%
+        } else {
+        %>
+        <p><a class="seemore barrier" onclick="onl()">See more...</a></p>
+        <%
+            }
+        %>
     </div>
 </div>
 

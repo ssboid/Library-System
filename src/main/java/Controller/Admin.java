@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -43,13 +42,11 @@ public class Admin extends HttpServlet {
         }
 
         //to go to manage book page
-        if (action.equalsIgnoreCase("gotomanagebook")) {
+        if (action != null && action.equalsIgnoreCase("gotomanagebook")) {
+            List<Student> sortedNames = AdminService.getAllBooks();
+            request.setAttribute("bookname", sortedNames);
             RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/managebook.jsp");
-            try {
-                rd.forward(request, response);
-            } catch (ServletException e) {
-                throw new RuntimeException(e);
-            }
+            rd.forward(request, response);
         }
 
         // to go to issue book page
@@ -62,7 +59,6 @@ public class Admin extends HttpServlet {
             }
         }
 
-
         //to go to issued book page
         if (action.equalsIgnoreCase("gotoissuedbooks")) {
             RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/issuedbook.jsp");
@@ -74,36 +70,75 @@ public class Admin extends HttpServlet {
         }
 
         //to go to user list page
-        if (action.equalsIgnoreCase("gotomanageuser")) {
+        if (action != null && action.equalsIgnoreCase("gotomanageuser")) {
+            List<Student> sortedNames = AdminService.getAllUsers();
+            request.setAttribute("username", sortedNames);
             RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/userlist.jsp");
-            try {
-                rd.forward(request, response);
-            } catch (ServletException e) {
-                throw new RuntimeException(e);
-            }
+            rd.forward(request, response);
         }
 
         //to go to subs list page
-        if (action.equalsIgnoreCase("gotomanagesubs")) {
+        if (action != null && action.equalsIgnoreCase("gotomanagesubs")) {
+            List<Student> sortedNames = AdminService.getAllSubs();
+            request.setAttribute("subname", sortedNames);
             RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/subscriberlist.jsp");
-            try {
-                rd.forward(request, response);
-            } catch (ServletException e) {
-                throw new RuntimeException(e);
-            }
+            rd.forward(request, response);
         }
-
 
         //to go to edit book page
+//        if (action.equalsIgnoreCase("gotoeditbook")) {
+//            RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/editbook.jsp");
+//            try {
+//                rd.forward(request, response);
+//            } catch (ServletException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
         if (action.equalsIgnoreCase("gotoeditbook")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            System.out.println(id);
+            Student student = new AdminService().getUserRow(id);
+            request.setAttribute("id", id);
+            request.setAttribute("student", student);
             RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/editbook.jsp");
-            try {
                 rd.forward(request, response);
-            } catch (ServletException e) {
-                throw new RuntimeException(e);
-            }
+
         }
 
+
+        // this controller will make the final changes in the editbook.jsp
+        if (action.equalsIgnoreCase("editbook")) {
+
+            Student student = new Student();
+
+            int id = Integer.parseInt(request.getParameter("id"));
+
+            student.setTitle(request.getParameter("title"));
+            student.setAuthor(request.getParameter("author"));
+            student.setIsbn(request.getParameter("isbn"));
+            student.setPublisher(request.getParameter("publisher"));
+            student.setPubYear(Integer.parseInt(request.getParameter("publication_year")));
+            student.setGenre(request.getParameter("genre"));
+            student.setLanguage(request.getParameter("language"));
+            student.setPages(request.getParameter("number_of_pages"));
+            student.setLocation(request.getParameter("location"));
+            student.setSynopsis(request.getParameter("synopsis"));
+//            student.setImage(request.getParameter("cover_image"));
+
+
+            try {
+                new AdminService().editbooks(id, student);
+               List<Student> bookList = new AdminService().getBookList();
+            request.setAttribute("bookList", bookList);
+                RequestDispatcher rd = request.getRequestDispatcher("AdminPanel/managebook.jsp");
+                rd.forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+                // handle the exception
+            }
+        }
 
 
         //to add book//
@@ -177,53 +212,10 @@ public class Admin extends HttpServlet {
             rd.forward(request, response);
         }
 
-//        userService.deleteUser(id);
-//        List<Student> userList = new UserService().getPolicyList();
-
-
-//
-
-//
-//
-//        // for editing users
-//        if (action.equalsIgnoreCase("userEdit"))
-//
-//        {
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            System.out.println(id);
-//            Student student = new UserService().getUserRow(id);
-//            request.setAttribute("id", id);
-//            request.setAttribute("student", student);
-//            RequestDispatcher rd = request.getRequestDispatcher("Pages/update_user.jsp");
-//            rd.forward(request, response);
-//        }
-//
-//        if (action.equalsIgnoreCase("editUser"))
-//
-//        {
-//            Student student = new Student();
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            student.setFullName(request.getParameter("fullName"));
-//            student.setUserName(request.getParameter("userName"));
-//            student.setPassword(request.getParameter("password"));
-//
-//            try {
-//                new UserService().editUser(id, student);
-//            } catch ( SQLException e) {
-//                e.printStackTrace();
-//            }
-//            List<Student> userList = new UserService().getUserList();
-//            request.setAttribute("userList", userList);
-//            RequestDispatcher rd = request.getRequestDispatcher("Pages/list_user.jsp");
-//            rd.forward(request, response);
-//        }
-
-
-//        For Searching books.
-
+        //For Searching Book
         if (action.equalsIgnoreCase("bsearch")) {
             String query = request.getParameter("query");
-            List<Student> searchResults = AdminService.searchUsers(query);
+            List<Student> searchResults = AdminService.searchBooks(query);
             request.setAttribute("searchResults", searchResults);
             request.setAttribute("query", query);
             RequestDispatcher dispatcher = request.getRequestDispatcher("AdminPanel/booksearchresult.jsp");
@@ -231,7 +223,6 @@ public class Admin extends HttpServlet {
         }
 
         //For Searching subscribers
-
         if (action.equalsIgnoreCase("ssearch")) {
             String query = request.getParameter("query");
             List<Student> subscribersearch = AdminService.searchSubs(query);
@@ -241,8 +232,20 @@ public class Admin extends HttpServlet {
             dispatcher.forward(request, response);
         }
 
-        // log out
+        //For Searching user
+        if (action.equalsIgnoreCase("usearch")) {
+            String query = request.getParameter("query");
+            List<Student> usersearch = AdminService.searchUsers(query);
+            request.setAttribute("usersearch", usersearch);
+            request.setAttribute("query", query);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("AdminPanel/usersearchresult.jsp");
+            dispatcher.forward(request, response);
+        }
 
+
+
+
+        // log out
         if (action.equalsIgnoreCase("logout")) {
             new UserService().logout(request, response);
             HttpSession session = request.getSession();
@@ -251,8 +254,6 @@ public class Admin extends HttpServlet {
             requestDispatcher.forward(request, response);
 
         }
-
-
     }
 
 

@@ -78,18 +78,18 @@
             <form action="borrowbook?page=issue" method="post">
               <div class="inputsection">
                 <label for="title">Title:</label><br>
-                <input type="text" class="input-box" id="title" name="title"  value="1984" required><br>
+                <input type="text" class="input-box" id="title" name="title"  value="" required><br>
               </div>
               <div class="inputsection">
                 <label for="author">Author:</label><br>
-                <input type="text" class="input-box" id="author" name="author" value="George Orwell" required><br>
+                <input type="text" class="input-box" id="author" name="author" value="" required><br>
               </div>
               <br>
               <div class="User-profile-heading-lv2">Select a User</div>
               <br>
               <div class="inputsection">
                 <label for="username">Borrower's Name:</label><br>
-                <input type="text" class="input-box" id="username" name="username" value="Sunit" required><br>
+                <input type="text" class="input-box" id="username" name="username" value="" required><br>
               </div>
               <input type="submit" value="Issue" id="add" title="Issue A book" onclick="on()">
             </form>

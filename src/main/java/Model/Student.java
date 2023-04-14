@@ -25,7 +25,7 @@ public class Student {
 
     private String publisher;
 
-    private int publication_year;
+    private int pubYear;
 
     private String genre;
 
@@ -44,6 +44,16 @@ public class Student {
     private String status;
 
     private boolean admin;
+
+    private int wid;
+
+    public int getWid() {
+        return wid;
+    }
+
+    public void setWid(int wid) {
+        this.wid = wid;
+    }
 
     public boolean getAdmin(){return admin;}
 
@@ -130,11 +140,11 @@ public class Student {
     }
 
     public int getPubYear() {
-        return publication_year;
+        return pubYear;
     }
 
-    public void setPubYear(int publication_year) {
-        this.publication_year = publication_year;
+    public void setPubYear(int pubYear) {
+        this.pubYear = pubYear;
     }
 
     public String getGenre() {

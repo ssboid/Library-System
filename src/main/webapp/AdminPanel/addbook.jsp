@@ -17,7 +17,7 @@
         <div class="headtitles" id="headtitlesfix">
             <div class="one">
                 <ul>
-                    <li><a href="homepage.html"><img src="CSS/images/LMB.png" id="logo"></a></li>
+                    <li><img src="CSS/images/LMB.png" id="logo"></li>
                 </ul>
             </div>
             <div class="two">
@@ -112,13 +112,13 @@
                                     <option value="Children">Children</option>
                                     <option value="Cookbook">Cookbook</option>
                                     <option value="Contemporary">Contemporary</option>
-                                    <option value="Deveelopment">Development</option>
+                                    <option value="Development">Development</option>
                                     <option value="Dystopian">Dystopian</option>
-                                    <option value="famnilyrelations">Families & Relationship</option>
+                                    <option value="Families & Relationship">Families & Relationship</option>
                                     <option value="Fantasy">Fantasy</option>
                                     <option value="Guide">Guide / How-to</option>
                                     <option value="Health">Health</option>
-                                    <option value="Historicalf">Historical Fiction</option>
+                                    <option value="Historical Fiction">Historical Fiction</option>
                                     <option value="History">History</option>
                                     <option value="Horror">Horror</option>
                                     <option value="Humor">Humor</option>
@@ -127,7 +127,7 @@
                                     <option value="Mystery">Mystery</option>
                                     <option value="Paranormal">Paranormal</option>
                                     <option value="Romance">Romance</option>
-                                    <option value="Scifi">Science Fiction</option>
+                                    <option value="Science Fiction">Science Fiction</option>
                                     <option value="Self-Help">Self-help</option>
                                     <option value="Thriller">Thriller</option>
                                     <option value="Travel">Travel</option>
