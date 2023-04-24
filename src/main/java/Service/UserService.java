@@ -305,7 +305,7 @@ public class UserService {
     public HashMap<String, Object> showPopular() throws SQLException, IOException {
         HashMap<String, Object> details = new HashMap<>();
         // Retrieve the image data and title of up to 4 popular books
-        String query = "SELECT bimage, btitle, bid FROM books WHERE count > 0 ORDER BY count DESC LIMIT 4";
+        String query = "SELECT bimage, btitle, bid FROM books ORDER BY count DESC LIMIT 4";
         PreparedStatement ps = new DBConnection().getStatement(query);
         ResultSet rs = ps.executeQuery();
         System.out.println(ps);

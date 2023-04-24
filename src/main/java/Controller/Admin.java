@@ -51,7 +51,7 @@ public class Admin extends HttpServlet {
 
         // to go to issue book page
         if (action.equalsIgnoreCase("gotoissuebook")) {
-            RequestDispatcher rd = request.getRequestDispatcher("issuebook.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/issuebook.jsp");
             try {
                 rd.forward(request, response);
             } catch (ServletException e) {
@@ -151,10 +151,8 @@ public class Admin extends HttpServlet {
                 part.write(filePathName);
             }
             try {
-
                 PrintWriter out1 = response.getWriter();
                 out1.print("Helllo here is error");
-
                 student.setTitle(request.getParameter("title"));
                 student.setAuthor(request.getParameter("author"));
                 student.setIsbn(request.getParameter("isbn"));
@@ -174,6 +172,11 @@ public class Admin extends HttpServlet {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        }
+
+        //to issuebook//
+        if (action.equalsIgnoreCase("issue")){
+
         }
 
         // for deleting subscriber
