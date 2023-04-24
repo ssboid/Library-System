@@ -39,7 +39,7 @@ public class Student {
 
     private String cover_image;
 
-
+    private int bookID;
 
     private String status;
 
@@ -55,9 +55,13 @@ public class Student {
         this.wid = wid;
     }
 
-    public boolean getAdmin(){return admin;}
+    public boolean getAdmin() {
+        return admin;
+    }
 
-    public void setAdmin(boolean admin) {this.admin = admin;}
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
     public int getId() {
         return id;
@@ -212,4 +216,11 @@ public class Student {
     }
 
 
+    public int getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
+    }
 }

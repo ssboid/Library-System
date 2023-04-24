@@ -3,6 +3,7 @@ package Service;
 import DBConnection.DBConnection;
 import Model.Student;
 import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -81,6 +82,64 @@ public class AdminService {
             e.printStackTrace();
         }
 
+    }
+
+    public void issueBook(String bEmail, String author, String title) {
+        Student book = new AdminService().getBook(author, title);
+        Student user = new UserService().getUserbyEmail(bEmail);
+        PreparedStatement ps = new DBConnection().getStatement("INSERT INTO issuedbooks (bid,id) VALUES (?, ?)");
+        PreparedStatement ps1 = new DBConnection().getStatement("UPDATE books SET count = count+1, status = 'Unavailable' WHERE book_id = ?");
+        try {
+            ps.setInt(1, book.getId());
+            ps.setInt(2, user.getId());
+            ps1.setInt(3, book.getId());
+            ps.executeUpdate();
+
+            ps1.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public Student getBook(String author, String title) {
+        Student student = null;
+        String query = "select * from books where bauthor=? and btitle=?";
+        PreparedStatement ps = new DBConnection().getStatement(query);
+        try {
+            ps.setString(1, author);
+            ps.setString(2, title);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                student = new Student();
+                student.setId(rs.getInt("bid"));
+                student.setTitle(rs.getString("btitle"));
+                student.setAuthor(rs.getString("bauthor"));
+            } else System.out.println("No BOOK FOUND " + author + " " + title);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return student;
+    }
+
+    public Student getBook(int id) {
+        Student student = null;
+        String query = "select * from books where bid=?";
+        PreparedStatement ps = new DBConnection().getStatement(query);
+        try {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                student = new Student();
+                student.setId(rs.getInt("bid"));
+                student.setTitle(rs.getString("btitle"));
+                student.setAuthor(rs.getString("bauthor"));
+                student.setGenre(rs.getString("bgenre"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return student;
     }
 
     //delete subscribers
@@ -203,19 +262,17 @@ public class AdminService {
 
     //creaate issued books list
     public List<Student> getIssuedBookList() {
-        System.out.println("getIssuedBookList");
         List<Student> issuedbookList = new ArrayList<>();
         String query = "select * from issuedbooks";
-        System.out.println(query);
         PreparedStatement pstm = new DBConnection().getStatement(query);
         try {
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 Student student = new Student();
-                student.setId(rs.getInt("ibid"));
-                student.setTitle(rs.getString("ibtitle"));
-                student.setUserName(rs.getString("ibuser"));
+                student.setBookID(rs.getInt("bid"));
+                student.setId(rs.getInt("id"));
                 issuedbookList.add(student);
+                System.out.println(student.getId() + " BOOK AND USER " + student.getBookID());
             }
             rs.close();
             pstm.close();
@@ -304,35 +361,35 @@ public class AdminService {
         return usersearch;
     }
 
-    public void editbooks(int id, Student student){
+    public void editbooks(int id, Student student) {
 
         String query = "UPDATE books SET btitle=?, bauthor=?, bisbn=?, bpublisher=?, bpubyear=?, bgenre=?, blanguage=?, bpages=?, blocation=?, bsynopsis=? WHERE bid=?";
-            PreparedStatement pstm = new DBConnection().getStatement(query);
-            try {
-                pstm.setString(1, student.getTitle());
-                pstm.setString(2, student.getAuthor());
-                pstm.setString(3, student.getIsbn());
-                pstm.setString(4, student.getPublisher());
-                pstm.setString(5, String.valueOf(student.getPubYear()));
-                pstm.setString(6, student.getGenre());
-                pstm.setString(7, student.getLanguage());
-                pstm.setString(8, student.getPages());
-                pstm.setString(9, student.getLocation());
+        PreparedStatement pstm = new DBConnection().getStatement(query);
+        try {
+            pstm.setString(1, student.getTitle());
+            pstm.setString(2, student.getAuthor());
+            pstm.setString(3, student.getIsbn());
+            pstm.setString(4, student.getPublisher());
+            pstm.setString(5, String.valueOf(student.getPubYear()));
+            pstm.setString(6, student.getGenre());
+            pstm.setString(7, student.getLanguage());
+            pstm.setString(8, student.getPages());
+            pstm.setString(9, student.getLocation());
 
 
-                pstm.setString(10,student.getSynopsis());
+            pstm.setString(10, student.getSynopsis());
 
-                pstm.setInt(11,id);
-                pstm.executeUpdate();
-                System.out.println(pstm);
-            }catch (SQLException e){
-                System.out.println(e);
-            }
-
+            pstm.setInt(11, id);
+            pstm.executeUpdate();
+            System.out.println(pstm);
+        } catch (SQLException e) {
+            System.out.println(e);
         }
 
+    }
 
-//        this is related to gotoeditbook
+
+    //        this is related to gotoeditbook
     public Student getUserRow(int id) {
         Student student = new Student();
         String query = "select * from books where bid = ?";

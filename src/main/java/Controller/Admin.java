@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -103,7 +104,7 @@ public class Admin extends HttpServlet {
             request.setAttribute("id", id);
             request.setAttribute("student", student);
             RequestDispatcher rd = request.getRequestDispatcher("/AdminPanel/editbook.jsp");
-                rd.forward(request, response);
+            rd.forward(request, response);
 
         }
 
@@ -130,8 +131,8 @@ public class Admin extends HttpServlet {
 
             try {
                 new AdminService().editbooks(id, student);
-               List<Student> bookList = new AdminService().getBookList();
-            request.setAttribute("bookList", bookList);
+                List<Student> bookList = new AdminService().getBookList();
+                request.setAttribute("bookList", bookList);
                 RequestDispatcher rd = request.getRequestDispatcher("AdminPanel/managebook.jsp");
                 rd.forward(request, response);
             } catch (Exception e) {
@@ -146,7 +147,7 @@ public class Admin extends HttpServlet {
             Student student = new Student();
             Part filePart = request.getPart("cover_image");
             String fileName = filePart.getSubmittedFileName();
-            String filePathName ="C:\\Users\\Lenovo\\IdeaProjects\\libraryProject\\src\\main\\webapp\\CSS\\images\\bookimages\\" + fileName;
+            String filePathName = "C:\\Users\\Lenovo\\IdeaProjects\\libraryProject\\src\\main\\webapp\\CSS\\images\\bookimages\\" + fileName;
             for (Part part : request.getParts()) {
                 part.write(filePathName);
             }
@@ -175,13 +176,18 @@ public class Admin extends HttpServlet {
         }
 
         //to issuebook//
-        if (action.equalsIgnoreCase("issue")){
+        if (action.equalsIgnoreCase("issue")) {
+            String email = request.getParameter("email");
+            String author = request.getParameter("author");
+            String title = request.getParameter("title");
 
+            new AdminService().issueBook(email, author, title);
+            RequestDispatcher rd = request.getRequestDispatcher("AdminPanel/issuebook.jsp");
+            rd.forward(request, response);
         }
 
         // for deleting subscriber
-        if (action.equalsIgnoreCase("deletesubs"))
-        {
+        if (action.equalsIgnoreCase("deletesubs")) {
             int id = Integer.parseInt(request.getParameter("id"));
             AdminService adminService = new AdminService();
             adminService.deleteSubs(id);
@@ -192,8 +198,7 @@ public class Admin extends HttpServlet {
         }
 
         // for deleting user
-        if (action.equalsIgnoreCase("deleteuser"))
-        {
+        if (action.equalsIgnoreCase("deleteuser")) {
             int id = Integer.parseInt(request.getParameter("id"));
             AdminService adminService = new AdminService();
             adminService.deleteUser(id);
@@ -204,8 +209,7 @@ public class Admin extends HttpServlet {
         }
 
         // for deleting book
-        if (action.equalsIgnoreCase("deletebook"))
-        {
+        if (action.equalsIgnoreCase("deletebook")) {
             int id = Integer.parseInt(request.getParameter("id"));
             AdminService adminService = new AdminService();
             adminService.deleteBook(id);
@@ -244,8 +248,6 @@ public class Admin extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("AdminPanel/usersearchresult.jsp");
             dispatcher.forward(request, response);
         }
-
-
 
 
         // log out

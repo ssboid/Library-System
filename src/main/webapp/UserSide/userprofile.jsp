@@ -2,6 +2,8 @@
 <%@ page import="Service.UserService" %>
 <%@ page import="Model.Student" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="Service.AdminService" %>
 <%
     SessionChecker sessionChecker = new SessionChecker();
     sessionChecker.checkSession(request, response);
@@ -91,15 +93,26 @@
                             <th>Title</th>
                             <th>Author</th>
                         </tr>
+                        <%
+                            PrintWriter printt = response.getWriter();
+                            List<Student> issuedbookList = new AdminService().getIssuedBookList();
+                            System.out.println("Issue Count: " + issuedbookList.size());
+                            int sn = 1;
+                            for (Student student : issuedbookList) {
+//                                if(session.getAttribute("uid"==))                            }
+                                Student book = new AdminService().getBook(student.getBookID());
+                                book.getGenre();
+
+                        %>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>1.</td>
+                            <td><%=sn%></td>
                             <td>
-                                <div class="item">JJBA</div>
+                                <div class="item"><%=book.getTitle()%></div>
                             </td>
                             <td>
-                                <div class="item">Araki</div>
+                                <div class="item"><%=book.getGenre()%></div>
                             </td>
                         </tr>
                         </tbody>

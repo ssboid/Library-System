@@ -1,7 +1,9 @@
 package Service;
+
 import DBConnection.DBConnection;
 import Model.Student;
 import jakarta.servlet.http.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -45,6 +47,72 @@ public class UserService {
         try {
             ps.setString(1, email);
             ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setUserName(rs.getString("userName"));
+                student.setEmail(rs.getString("email"));
+                student.setPassword(rs.getString("password"));
+                student.setAdmin(rs.getBoolean("admin"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return student;
+    }
+
+
+    public Student getUser(int id) {
+        Student student = null;
+        String query = "select * from user where id=?";
+        PreparedStatement ps = new DBConnection().getStatement(query);
+        try {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            System.out.println("Exist 1" + id);
+            while (rs.next()) {
+                student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setUserName(rs.getString("userName"));
+                student.setEmail(rs.getString("email"));
+                student.setPassword(rs.getString("password"));
+                student.setAdmin(rs.getBoolean("admin"));
+                System.out.println("Exist " + id + " " + student.getUserName() + " " + rs.getString("userName"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return student;
+    }
+
+    public Student getUserbyEmail(String email) {
+        Student student = null;
+        String query = "select * from user where email=?";
+        PreparedStatement ps = new DBConnection().getStatement(query);
+        try {
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setUserName(rs.getString("userName"));
+                student.setEmail(rs.getString("email"));
+                student.setPassword(rs.getString("password"));
+                student.setAdmin(rs.getBoolean("admin"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return student;
+    }
+
+    public Student getUserbyID(int id) {
+        Student student = null;
+        String query = "select * from user where id=?";
+        PreparedStatement ps = new DBConnection().getStatement(query);
+        try {
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 student = new Student();
@@ -322,7 +390,7 @@ public class UserService {
             int bid = rs.getInt("bid");
             details.put("btitle" + i, btitle);
             details.put("bimage" + i, base64Image);
-            details.put("bid" +i, bid);
+            details.put("bid" + i, bid);
             i++;
         }
         return details;
@@ -349,7 +417,7 @@ public class UserService {
             int bid = rs.getInt("bid");
             details.put("btitle" + i, btitle);
             details.put("bimage" + i, base64Image);
-            details.put("bid" +i, bid);
+            details.put("bid" + i, bid);
             i++;
 
         }

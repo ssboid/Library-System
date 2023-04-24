@@ -4,6 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Service.AdminService" %>
 <%@ page import="Service.AdminService.SessionChecker" %>
+<%@ page import="Service.UserService" %>
 <%
     SessionChecker sessionChecker = new SessionChecker();
     sessionChecker.checkSession(request, response);
@@ -75,7 +76,7 @@
         <div class="container">
             <div class="user-info-container">
                 <div class="user-info-container-sub">
-                    <div class="User-profile-heading">Issue a Book</div>
+                    <div class="User-profile-heading">Issued Books</div>
                     <br>
                     <div class="User-profile-display displaytable">
                         <table>
@@ -87,7 +88,7 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th> </th>
+                                <th></th>
                                 <th>Title</th>
                                 <th>Book Holder</th>
                                 <th>Action</th>
@@ -97,26 +98,31 @@
                             <%
                                 PrintWriter printt = response.getWriter();
                                 List<Student> issuedbookList = new AdminService().getIssuedBookList();
-                                int sn =1;
+                                System.out.println("Issue Count: " + issuedbookList.size());
+                                int sn = 1;
                                 for (Student student : issuedbookList) {
+                                    Student book = new AdminService().getBook(student.getBookID());
+                                    Student user = new UserService().getUser(student.getId());
+
                             %>
                             <tr>
                                 <td style="float:right; height: 24px;"><%=sn%>.
                                 </td>
-                                <td><%=student.getTitle()%>
+                                <td><%=book.getTitle()%>
                                 </td>
-                                <td><%=student.getUserName()%>
+                                <td><%=user.getUserName()%>
                                 </td>
                                 <td style="text-align: center;">
-                                    <div><img src="${pageContext.request.contextPath}/CSS/images/icons/edit.svg" class="manage edit" title="Edit issue details" style="float:left;"></div>
-                                    <div><img src="${pageContext.request.contextPath}/CSS/images/icons/checkmark.svg" class="manage unlock" title="Book Returned" style="float:right; height: 24px;">
+                                    <div><img src="${pageContext.request.contextPath}/CSS/images/icons/checkmark.svg"
+                                              class="manage unlock" title="Book Returned"
+                                              style="float:right; height: 24px;">
                                     </div>
                                 </td>
 
                             </tr>
 
                             <%
-                                    sn=sn+1;
+                                    sn = sn + 1;
                                 }
                             %>
                             </tbody>
