@@ -75,7 +75,7 @@
           <div class="User-profile-heading">Issue a Book</div><br>
           <div class="User-profile-display displaytable">
             <div class="User-profile-heading-lv2">Select a Book</div><br>
-            <form action="borrowbook?page=issue" method="post">
+            <form action="admin?page=issue" method="post">
               <div class="inputsection">
                 <label for="title">Title:</label><br>
                 <input type="text" class="input-box" id="title" name="title"  value="" required><br>
@@ -88,8 +88,8 @@
               <div class="User-profile-heading-lv2">Select a User</div>
               <br>
               <div class="inputsection">
-                <label for="username">Borrower's Name:</label><br>
-                <input type="text" class="input-box" id="username" name="username" value="" required><br>
+                <label for="email">Borrower's Email:</label><br>
+                <input type="text" class="input-box" id="email" name="email" value="" required><br>
               </div>
               <input type="submit" value="Issue" id="add" title="Issue A book" onclick="on()">
             </form>
